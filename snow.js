@@ -79,6 +79,9 @@ var snowStorm = (function (window, document) {
         }()),
         didInit = false,
         docFrag = document.createDocumentFragment();
+        if (!isMobile) {
+            this.animationInterval = 33;
+        }
 
     features = (function () {
 
