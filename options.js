@@ -31,20 +31,42 @@ menu.insertBefore(optionButton, optionList);
 menu.insertBefore(document.createElement("br"), optionList);
 
 function addOption(option) {
+  option.type = option.type || "checkbox";
   var label = document.createElement("label");
   var span = document.createElement("span");
   span.innerText = option.label;
   label.appendChild(span);
-  var check = document.createElement("input");
-  check.setAttributes({
+  var input = document.createElement("input");
+  input.setAttributes({
     "name": option.name,
-    "type": "checkbox"
+    "type": option.type
   });
-  if (getCookie(option.name) == "true") {
-    check.checked = true;
+  if (option.type == "checkbox" && getCookie(option.name) == "true") {
+    input.checked = true;
+  } else if (option.type == "range") {
+    input.setAttributes({
+      "min": option.min,
+      "max": option.max,
+      "step": option.step
+    });
+    option.value = getCookie(option.name);
+    if (isFinite(option.value)) {
+      input.value = option.value;
+    }
   }
-  check.addEventListener("change", option.change);
-  label.appendChild(check);
+  //input.addEventListener("change", option.change);
+  for (i in option.events) {
+    input.addEventListener(i, option.events[i]);
+  }
+  label.appendChild(input);
+  if (option.type == "range") {
+    var textval = document.createElement("span");
+    textval.setAttributes({
+      "class": "textval"
+    });
+    textval.innerText = input.value;
+    label.appendChild(textval);
+  }
   optionList.appendChild(label);
   optionList.appendChild(document.createElement("br"));
 }
@@ -52,20 +74,22 @@ function addOption(option) {
 addOption({
   name: "popint",
   label: "Auto Alerts: Popups",
-  change: function () {
-    if (this.checked) {
-      setCookie("popint", "true", 1000);
-      startPopInt();
-      if (Notification.permission == "default" || Notification.permission == "denied") {
-        Notification.requestPermission(function () {
+  events: {
+    "change": function () {
+      if (this.checked) {
+        setCookie("popint", "true", 1000);
+        startPopInt();
+        if (Notification.permission == "default" || Notification.permission == "denied") {
+          Notification.requestPermission(function () {
+            popNotify("You will now receive alerts about popups automatically, without having to refresh the page.", {close: 3000});
+          });
+        } else {
           popNotify("You will now receive alerts about popups automatically, without having to refresh the page.", {close: 3000});
-        });
+        }
       } else {
-        popNotify("You will now receive alerts about popups automatically, without having to refresh the page.", {close: 3000});
+        delCookie("popint");
+        popNotify("You will no longer receive auto updates for popups.", {close: 3000});    
       }
-    } else {
-      delCookie("popint");
-      popNotify("You will no longer receive auto updates for popups.", {close: 3000});    
     }
   }
 });
@@ -73,20 +97,39 @@ addOption({
 addOption({
   name: "pmint",
   label: "Auto Alerts: PMs",
-  change: function () {
-    if (this.checked) {
-      setCookie("pmint", "true", 1000);
-      startPopInt();
-      if (Notification.permission == "default" || Notification.permission == "denied") {
-        Notification.requestPermission(function () {
-          popNotify("You will now receive alerts about PMs automatically, without having to refresh the page.", {close: 3000});
-        });
-      } else {
-        popNotify("You will now receive alerts about PMs automatically, without having to refresh the page.", {close: 3000});
+  events: {
+      "change": function () {
+        if (this.checked) {
+          setCookie("pmint", "true", 1000);
+          startPopInt();
+          if (Notification.permission == "default" || Notification.permission == "denied") {
+            Notification.requestPermission(function () {
+              popNotify("You will now receive alerts about PMs automatically, without having to refresh the page.", {close: 3000});
+            });
+          } else {
+            popNotify("You will now receive alerts about PMs automatically, without having to refresh the page.", {close: 3000});
+          }
+        } else {
+          delCookie("pmint");
+          popNotify("You will no longer receive auto updates for PMs.", {close: 3000});
+        }
       }
-    } else {
-      delCookie("pmint");
-      popNotify("You will no longer receive auto updates for PMs.", {close: 3000});
+    }
+});
+
+addOption({
+  name: "alerttimer",
+  label: "Auto Alerts Timeout (seconds)",
+  type: "range",
+  min: "0",
+  max: "60",
+  step: "1",
+  events: {
+    "change": function () {
+      setCookie("alerttimer", this.value, 1000);
+    },
+    "input": function () {
+      this.parentElement.querySelector("span.textval").innerText = this.value;
     }
   }
 });
@@ -94,22 +137,24 @@ addOption({
 addOption({
   name: "nosnow",
   label: "Keep Me Warm! (stop the snow)",
-  change: function () {
-    if (this.checked) {
-      snowStorm.active = false;
-      snowStorm.stop();
-      snowStorm.freeze();
-      setCookie("nosnow", "true", 365);
-    } else {
-      if (!snowStorm.flakes.length) {
-        // first run
-        snowStorm.start();
+  events: {
+    "change": function () {
+      if (this.checked) {
+        snowStorm.active = false;
+        snowStorm.stop();
+        snowStorm.freeze();
+        setCookie("nosnow", "true", 365);
       } else {
-          snowStorm.active = true;
-          snowStorm.show();
-          snowStorm.resume();
+        if (!snowStorm.flakes.length) {
+          // first run
+          snowStorm.start();
+        } else {
+            snowStorm.active = true;
+            snowStorm.show();
+            snowStorm.resume();
+        }
+        setCookie("nosnow", "false", 365);
       }
-      setCookie("nosnow", "false", 365);
     }
   }
 });
