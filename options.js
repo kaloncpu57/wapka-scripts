@@ -96,10 +96,19 @@ addOption({
   label: "Keep Me Warm! (stop the snow)",
   change: function () {
     if (this.checked) {
+      snowStorm.active = false;
       snowStorm.stop();
+      snowStorm.freeze();
       setCookie("nosnow", "true", 365);
     } else {
-      snowStorm.init();
+      if (!snowStorm.flakes.length) {
+        // first run
+        snowStorm.start();
+      } else {
+          snowStorm.active = true;
+          snowStorm.show();
+          snowStorm.resume();
+      }
       setCookie("nosnow", "false", 365);
     }
   }
