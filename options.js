@@ -13,7 +13,7 @@ Element.prototype.setAttributes = function (attrs) {
 function toggleOptions() {
   var options = document.querySelector("#option-list");
   if (options.style.display == "none") {
-    options.style.display = "block";
+    options.style.display = "inline-block";
     this.innerText = "Hide Options";
   } else {
     options.style.display = "none";
@@ -28,6 +28,7 @@ optionButton.innerText = "Show Options";
 optionButton.addEventListener("click", toggleOptions);
 menu.insertBefore(document.createElement("br"), optionList); 
 menu.insertBefore(optionButton, optionList);
+menu.insertBefore(document.createElement("br"), optionList);
 
 function addOption(option) {
   var label = document.createElement("label");
