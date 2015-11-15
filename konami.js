@@ -95,7 +95,9 @@ var Konami = function (callback) {
 		}
 	}
 
-	typeof callback === "string" && konami.load(callback);
+	if (typeof callback === "string") {
+		konami.load(callback);
+	}
 	if (typeof callback === "function") {
 		konami.code = callback;
 		konami.load();
