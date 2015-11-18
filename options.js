@@ -49,7 +49,7 @@ function addOption(option) {
       "max": option.max,
       "step": option.step
     });
-    option.value = getCookie(option.name);
+    option.value = getCookie(option.name) || option.value;
     if (isFinite(option.value)) {
       input.value = option.value;
     }
@@ -124,6 +124,7 @@ addOption({
   min: "0",
   max: "60",
   step: "1",
+  value: "3",
   events: {
     "change": function () {
       setCookie("alerttimer", this.value, 1000);
