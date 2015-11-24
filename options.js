@@ -159,3 +159,23 @@ addOption({
     }
   }
 });
+
+menu.appendChild(document.createElement("hr"));
+var beta = document.createElement("h3");
+beta.textContent = "Beta Options";
+menu.appendChild(beta);
+
+addOption({
+    name: "forumupdate",
+    label: "Auto Update Forums",
+    events: {
+        "change": function () {
+            if (this.checked) {
+                setCookie("forumupdate", "true", 1000);
+                popNotify("Forums (including Shouts) that you view will now automatically update.");
+            } else {
+                setCookie("forumupdate", "false", 1000);
+            }
+        }
+    }
+})
