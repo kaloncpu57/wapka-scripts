@@ -160,10 +160,10 @@ addOption({
   }
 });
 
-menu.appendChild(document.createElement("hr"));
+optionList.appendChild(document.createElement("hr"));
 var beta = document.createElement("h3");
 beta.textContent = "Beta Options";
-menu.appendChild(beta);
+optionList.appendChild(beta);
 
 addOption({
     name: "forumupdate",
