@@ -27,11 +27,13 @@ for(var i = 0; i < keys.length; i++) {
 			equation = equation.replace(/x/g, '*').replace(/÷/g, '/');
 			
 			// Final thing left to do is checking the last character of the equation. If it's an operator or a decimal, remove it
-			if(operators.indexOf(lastChar) > -1 || lastChar == '.')
+			if(operators.indexOf(lastChar) > -1 || lastChar == '.') {
 				equation = equation.replace(/.$/, '');
+			}
 			
-			if(equation)
+			if(equation) {
 				input.innerHTML = eval(equation);
+			}
 				
 			decimalAdded = false;
 		}
@@ -50,12 +52,14 @@ for(var i = 0; i < keys.length; i++) {
 			var lastChar = inputVal[inputVal.length - 1];
 			
 			// Only add operator if input is not empty and there is no operator at the last
-			if(inputVal != '' && operators.indexOf(lastChar) == -1) 
+			if(inputVal != '' && operators.indexOf(lastChar) == -1) {
 				input.innerHTML += btnVal;
+			}
 			
 			// Allow minus if the string is empty
-			else if(inputVal == '' && btnVal == '-') 
+			else if(inputVal == '' && btnVal == '-') {
 				input.innerHTML += btnVal;
+			}
 			
 			// Replace the last operator (if exists) with the newly pressed operator
 			if(operators.indexOf(lastChar) > -1 && inputVal.length > 1) {
