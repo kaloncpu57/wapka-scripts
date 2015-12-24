@@ -73,7 +73,7 @@ for(var i = 0; i < keys.length; i++) {
 		// Now only the decimal problem is left. We can solve it easily using a flag 'decimalAdded' which we'll set once the decimal is added and prevent more decimals to be added once it's set. It will be reset when an operator, eval or clear key is pressed.
 		else if(btnVal == '.') {
 			if(!decimalAdded) {
-				input.innerHTML += btnVal;
+				input.innerHTML += btnVal || '.';
 				decimalAdded = true;
 			}
 		}
