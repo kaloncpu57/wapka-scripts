@@ -1,5 +1,5 @@
 // Get all the keys from document
-var keys = document.querySelectorAll('#calculator span') || document.getElementById("calculator").getElementsByTagName("span");
+var keys = document.getElementById("calculator").getElementsByTagName("span");
 var operators = ['+', '-', 'x', '÷'];
 var decimalAdded = false;
 
@@ -7,7 +7,7 @@ var decimalAdded = false;
 for(var i = 0; i < keys.length; i++) {
 	keys[i].onclick = function(e) {
 		// Get the input and button values
-		var input = document.querySelector('.screen') || document.getElementsByClassName("screen")[0];;
+		var input = document.getElementsByClassName("screen")[0];;
 		var inputVal = input.innerHTML;
 		var btnVal = this.innerHTML;
 		
