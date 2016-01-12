@@ -11,7 +11,7 @@ Element.prototype.setAttributes = function (attrs) {
 };
 
 function toggleOptions() {
-  var options = document.querySelector("#option-list");
+  var options = document.getElementById("option-list");
   if (options.style.display == "none") {
     options.style.display = "inline-block";
     this.innerText = "Hide Options";
@@ -21,8 +21,8 @@ function toggleOptions() {
   }
 }
 
-var menu = document.querySelector("#main-menu"),
-    optionList = document.querySelector("#option-list"),
+var menu = document.getElementById("main-menu"),
+    optionList = document.getElementById("option-list"),
     optionButton = document.createElement("button");
 optionButton.innerText = "Show Options";
 optionButton.addEventListener("click", toggleOptions);
