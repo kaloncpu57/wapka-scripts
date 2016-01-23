@@ -160,6 +160,21 @@ addOption({
   }
 });
 
+addOption({
+  name: "notifysound",
+  label: "Notification Sounds",
+  events: {
+    "change": function () {
+      if (this.checked) {
+        setCookie("notifysound", "true", 365);
+        notificationaudio.play();
+      } else {
+        setCookie("notifysound", "false", 365);
+      }
+    }
+  }
+});
+
 optionList.appendChild(document.createElement("hr"));
 var beta = document.createElement("h3");
 beta.textContent = "Beta Options";
