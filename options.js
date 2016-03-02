@@ -137,7 +137,7 @@ addOption({
 
 addOption({
   name: "nosnow",
-  label: "Keep Me Warm! (stop the snow)",
+  label: "(Snow option being updated)",
   events: {
     "change": function () {
       if (this.checked) {
