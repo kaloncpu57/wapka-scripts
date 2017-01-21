@@ -180,11 +180,6 @@ addOption({
   }
 });
 
-optionList.appendChild(document.createElement("hr"));
-var beta = document.createElement("h3");
-beta.textContent = "Beta Options";
-optionList.appendChild(beta);
-
 if (navigator.userAgent.indexOf("Android") != -1) {
   addOption({
     name: "tabcolor",
@@ -199,6 +194,11 @@ if (navigator.userAgent.indexOf("Android") != -1) {
     }
   });
 }
+
+optionList.appendChild(document.createElement("hr"));
+var beta = document.createElement("h3");
+beta.textContent = "Beta Options";
+optionList.appendChild(beta);
 
 addOption({
   name: "forumupdate",
