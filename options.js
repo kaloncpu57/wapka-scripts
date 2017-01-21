@@ -1,13 +1,13 @@
 Element.prototype.setAttributes = function (attrs) {
-    for (var idx in attrs) {
-        if ((idx === 'styles' || idx === 'style') && typeof attrs[idx] === 'object') {
-            for (var prop in attrs[idx]){this.style[prop] = attrs[idx][prop];}
-        } else if (idx === 'html') {
-            this.innerHTML = attrs[idx];
-        } else {
-            this.setAttribute(idx, attrs[idx]);
-        }
+  for (var idx in attrs) {
+    if ((idx === 'styles' || idx === 'style') && typeof attrs[idx] === 'object') {
+      for (var prop in attrs[idx]){this.style[prop] = attrs[idx][prop];}
+    } else if (idx === 'html') {
+      this.innerHTML = attrs[idx];
+    } else {
+      this.setAttribute(idx, attrs[idx]);
     }
+  }
 };
 
 function toggleOptions() {
@@ -22,11 +22,11 @@ function toggleOptions() {
 }
 
 var menu = document.getElementById("main-menu"),
-    optionList = document.getElementById("option-list"),
-    optionButton = document.createElement("button");
+optionList = document.getElementById("option-list"),
+optionButton = document.createElement("button");
 optionButton.innerText = "Show Options";
 optionButton.addEventListener("click", toggleOptions);
-menu.insertBefore(document.createElement("br"), optionList); 
+menu.insertBefore(document.createElement("br"), optionList);
 menu.insertBefore(optionButton, optionList);
 menu.insertBefore(document.createElement("br"), optionList);
 
@@ -51,6 +51,11 @@ function addOption(option) {
     });
     option.value = getCookie(option.name) || option.value;
     if (isFinite(option.value)) {
+      input.value = option.value;
+    }
+  } else if (option.type == "color") {
+    option.value = getCookie(option.name) || option.value;
+    if (option.value.match(/#[A-F0-9]{6}|[A-F0-9]{3}/ig)) {
       input.value = option.value;
     }
   }
@@ -88,7 +93,7 @@ addOption({
         }
       } else {
         delCookie("popint");
-        popNotify("You will no longer receive auto updates for popups.", {close: 3000});    
+        popNotify("You will no longer receive auto updates for popups.", {close: 3000});
       }
     }
   }
@@ -98,23 +103,23 @@ addOption({
   name: "pmint",
   label: "Auto Alerts: PMs",
   events: {
-      "change": function () {
-        if (this.checked) {
-          setCookie("pmint", "true", 1000);
-          startPopInt();
-          if (Notification.permission == "default" || Notification.permission == "denied") {
-            Notification.requestPermission(function () {
-              popNotify("You will now receive alerts about PMs automatically, without having to refresh the page.", {close: 3000});
-            });
-          } else {
+    "change": function () {
+      if (this.checked) {
+        setCookie("pmint", "true", 1000);
+        startPopInt();
+        if (Notification.permission == "default" || Notification.permission == "denied") {
+          Notification.requestPermission(function () {
             popNotify("You will now receive alerts about PMs automatically, without having to refresh the page.", {close: 3000});
-          }
+          });
         } else {
-          delCookie("pmint");
-          popNotify("You will no longer receive auto updates for PMs.", {close: 3000});
+          popNotify("You will now receive alerts about PMs automatically, without having to refresh the page.", {close: 3000});
         }
+      } else {
+        delCookie("pmint");
+        popNotify("You will no longer receive auto updates for PMs.", {close: 3000});
       }
     }
+  }
 });
 
 addOption({
@@ -135,30 +140,30 @@ addOption({
   }
 });
 
-addOption({
-  name: "nosnow",
-  label: "(Snow option being updated)",
-  events: {
-    "change": function () {
-      if (this.checked) {
-        snowStorm.active = false;
-        snowStorm.stop();
-        snowStorm.freeze();
-        setCookie("nosnow", "true", 365);
-      } else {
-        if (!snowStorm.flakes.length) {
-          // first run
-          snowStorm.start();
-        } else {
-            snowStorm.active = true;
-            snowStorm.show();
-            snowStorm.resume();
-        }
-        setCookie("nosnow", "false", 365);
-      }
-    }
-  }
-});
+// addOption({
+//   name: "nosnow",
+//   label: "(Snow option being updated)",
+//   events: {
+//     "change": function () {
+//       if (this.checked) {
+//         snowStorm.active = false;
+//         snowStorm.stop();
+//         snowStorm.freeze();
+//         setCookie("nosnow", "true", 365);
+//       } else {
+//         if (!snowStorm.flakes.length) {
+//           // first run
+//           snowStorm.start();
+//         } else {
+//             snowStorm.active = true;
+//             snowStorm.show();
+//             snowStorm.resume();
+//         }
+//         setCookie("nosnow", "false", 365);
+//       }
+//     }
+//   }
+// });
 
 addOption({
   name: "notifysound",
@@ -180,17 +185,32 @@ var beta = document.createElement("h3");
 beta.textContent = "Beta Options";
 optionList.appendChild(beta);
 
-addOption({
-    name: "forumupdate",
-    label: "Auto Update Forums",
+if (navigator.userAgent.indexOf("Android") != -1) {
+  addOption({
+    name: "tabcolor",
+    label: "Tab Color",
+    type: "color",
+    value: "#663399",
     events: {
-        "change": function () {
-            if (this.checked) {
-                setCookie("forumupdate", "true", 1000);
-                popNotify("Forums (including Shouts) that you view will now automatically update.");
-            } else {
-                setCookie("forumupdate", "false", 1000);
-            }
-        }
+      "change": function () {
+        setCookie("tabcolor", this.value, 1000);
+        $("meta[name='theme-color']").attr("content", this.value);
+      }
     }
-})
+  });
+}
+
+addOption({
+  name: "forumupdate",
+  label: "Auto Update Forums",
+  events: {
+    "change": function () {
+      if (this.checked) {
+        setCookie("forumupdate", "true", 1000);
+        popNotify("Forums (including Shouts) that you view will now automatically update.");
+      } else {
+        setCookie("forumupdate", "false", 1000);
+      }
+    }
+  }
+});
