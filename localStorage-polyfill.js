@@ -90,7 +90,7 @@ var Storage = function (type) {
   };
 };
 
-if (typeof window.localStorage == 'undefined') window.localStorage = Storage('local');
-if (typeof window.sessionStorage == 'undefined') window.sessionStorage = Storage('session');
+if (typeof window.localStorage == 'undefined') window.localStorage = new Storage('local');
+if (typeof window.sessionStorage == 'undefined') window.sessionStorage = new Storage('session');
 
 })();
