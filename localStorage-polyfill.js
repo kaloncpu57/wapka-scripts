@@ -1,4 +1,4 @@
-if (typeof window.localStorage == 'undefined' || typeof window.sessionStorage == 'undefined') (function () {
+if (typeof window.localStorage == 'undefined' || typeof window.sessionStorage == 'undefined') {
 
 var Storage = function (type) {
   function createCookie(name, value, days) {
@@ -90,7 +90,7 @@ var Storage = function (type) {
   };
 };
 
-if (typeof window.localStorage == 'undefined') window.localStorage = new Storage('local');
-if (typeof window.sessionStorage == 'undefined') window.sessionStorage = new Storage('session');
+if (typeof window.localStorage == 'undefined') {window.localStorage = new Storage('local');}
+if (typeof window.sessionStorage == 'undefined') {window.sessionStorage = new Storage('session');}
 
-})();
+}
